@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use \App\Post;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\CommentReceived;
+
 class CommentsController extends Controller
 {
     //
@@ -15,6 +18,10 @@ class CommentsController extends Controller
 
     	$post->comments()->create(request()->all()); //laravel kaci id posta na id commenta
 
+    	Mail::to($post->user)->send(new CommentReceived($post));
+
     	return redirect()->back();
+
+
     }
 }

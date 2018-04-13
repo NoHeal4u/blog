@@ -13,4 +13,7 @@
 
     <!-- Custom styles for this template -->
     <link href="/css/app.css" rel="stylesheet">
+    @if($message = session('message'))
+    <div class="alert alert-success"> {{$message}} </div>
+    @endif
   </head>

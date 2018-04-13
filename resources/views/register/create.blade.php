@@ -28,6 +28,11 @@
 			<input id="password" type="password" name="password" class="form-control">
 			@include('layouts.partials.error-message',['fieldTitle'=>'password']) 
 		</div>
+
+		<div class="form-group">
+				<label for="age">Age</label>
+				<input type="text" class="form-control" name="age" id="age">
+		</div>
 		
 
 		<div class="form-group">
