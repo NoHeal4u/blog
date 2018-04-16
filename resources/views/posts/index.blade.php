@@ -25,6 +25,7 @@
             </small>
           @endforeach
       </ul>
+      
 
       <nav class="blog-pagination">
        <a class="btn btn-outline-{{ $posts->currentPage() == 1 ? 'secondary disabled' : 'primary' }}" 

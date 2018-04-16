@@ -19,7 +19,10 @@ class PostsController extends Controller
     	// $posts = Post::getPublished();
         // $posts = Post::all();
 
-        $posts = Post::paginate(10);
+        $posts = Post::with('user')->paginate(10); // eager loading
+
+        // $posts = Post::find(1);
+        // $post->user(); lazy loading 
 
     	return view('posts.index', compact(['posts']));
     }
