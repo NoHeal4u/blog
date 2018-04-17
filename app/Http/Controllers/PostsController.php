@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use \App\Post;
+use App\Tag;
 
 class PostsController extends Controller
 {   
@@ -19,7 +20,7 @@ class PostsController extends Controller
     	// $posts = Post::getPublished();
         // $posts = Post::all();
 
-        $posts = Post::with('user')->paginate(10); // eager loading
+        $posts = Post::with('user')->latest()->paginate(10); // eager loading latest okrece order od najnovijeg
 
         // $posts = Post::find(1);
         // $post->user(); lazy loading 
@@ -39,8 +40,9 @@ class PostsController extends Controller
 
 
     public function create()
-    {
-        return view('posts.create');
+    {   
+        $tags = Tag::all();
+        return view('posts.create', compact('tags'));
     }
 
     public function store()
@@ -55,8 +57,9 @@ class PostsController extends Controller
 
         // $post->save(); //kucanje u jednu
         $this->validate(request(),['title'=>'required',
-                                    'body'=>'required|min:15']); //validacija za korektan unos
-       
+                                    'body'=>'required|min:15', //validacija za korektan unos
+                                    'tags'=>'required|array'
+                                    ]);
         // Post::create(request()->all());
 
         $post = new Post();
@@ -65,6 +68,9 @@ class PostsController extends Controller
         $post->user_id = auth()->user()->id;
         $post->is_published = request('is_published');
         $post->save();
+
+        $post->tags()->attach(request('tags'));
+        // \Log::info($post->tags()->get()); //log da vidimo sta se desilo
 
         return redirect('/posts');
     }
